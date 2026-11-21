@@ -202,12 +202,18 @@ def paint_sunpath(c, cx=SUN_X):
     """The sun's road: it walks the eye from the name down to the beacon."""
     for y in range(HORIZON, H):
         depth = (y - HORIZON) / float(H - HORIZON)
-        half = 30 + depth * 210
-        a = 0.46 * (1.0 - depth * 0.80)
+        half = 34 + depth * 240
+        a = 0.62 * (1.0 - depth * 0.72)
         for x in range(max(0, int(cx - half)), min(W, int(cx + half))):
             fall = 1.0 - abs(x - cx) / half
             if fall > 0.0:
-                c.set(x, y, INK_CREAM, a * (fall ** 1.8))
+                c.set(x, y, INK_CREAM, a * (fall ** 1.5))
+    # the horizon line itself, a hair brighter where the sun touches it
+    for x in range(int(cx - 260), int(cx + 260)):
+        if 0 <= x < W:
+            fall = 1.0 - abs(x - cx) / 260.0
+            c.set(x, HORIZON, INK_CREAM, 0.34 * fall ** 1.2)
+            c.set(x, HORIZON - 1, INK_CREAM, 0.20 * fall ** 2.0)
 
 
 def paint_ripples(c):
